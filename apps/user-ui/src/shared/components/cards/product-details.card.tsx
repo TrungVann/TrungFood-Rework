@@ -158,20 +158,6 @@ const ProductDetailsCard = ({
                   ₫
                 </span>
               )}
-              {/* <span className="text-2xl font-bold text-orange-600">
-                {(productDetails?.sale_price * USD_TO_VND_RATE)?.toLocaleString(
-                  "vi-VN"
-                )}
-                ₫
-              </span>
-              {productDetails?.regular_price && (
-                <span className="text-base text-gray-400 line-through">
-                  {(
-                    productDetails.regular_price * USD_TO_VND_RATE
-                  )?.toLocaleString("vi-VN")}
-                  ₫
-                </span>
-              )} */}
               {productDetails.starting_date &&
                 productDetails?.regular_price && (
                   <span className="text-xs bg-orange-100 text-orange-600 px-2 py-0.5 rounded-full font-medium">
@@ -336,7 +322,10 @@ const ProductDetailsCard = ({
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Image
-                    src={productDetails?.Shop?.avatar}
+                    src={
+                      productDetails?.Shop?.avatar ||
+                      "https://ik.imagekit.io/trungvan/avatar/download_7vsyVnfFL.jpg?updatedAt=1767667654412"
+                    }
                     alt="Shop Logo"
                     width={45}
                     height={45}

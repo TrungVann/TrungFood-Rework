@@ -86,6 +86,8 @@ const Page = () => {
     staleTime: 1000 * 60 * 30,
   });
 
+  const USD_TO_VND_RATE = 26000;
+
   return (
     <div className="w-full bg-[#f5f5f5] pb-10">
       <div className="w-[90%] lg:w-[80%] m-auto">
@@ -155,9 +157,14 @@ const Page = () => {
                   Khoảng giá
                 </span>
                 <span className="text-sm font-semibold text-gray-800">
-                  ${tempPriceRange[0]}
-                  <span className="mx-1 text-gray-400">–</span>$
-                  {tempPriceRange[1]}
+                  {(tempPriceRange[0] * USD_TO_VND_RATE).toLocaleString(
+                    "vi-VN"
+                  )}
+                  đ<span className="mx-1 text-gray-400">–</span>
+                  {(tempPriceRange[1] * USD_TO_VND_RATE).toLocaleString(
+                    "vi-VN"
+                  )}
+                  đ
                 </span>
               </div>
               <button

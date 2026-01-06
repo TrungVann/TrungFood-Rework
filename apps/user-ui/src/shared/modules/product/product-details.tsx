@@ -24,6 +24,7 @@ import { isProtected } from "apps/user-ui/src/utils/protected";
 import { useRouter } from "next/navigation";
 
 const ProductDetails = ({ productDetails }: { productDetails: any }) => {
+  const USD_TO_VND_RATE = 26000;
   const { user, isLoading } = useUser();
   const location = useLocationTracking();
   const deviceInfo = useDeviceTracking();
@@ -264,16 +265,40 @@ const ProductDetails = ({ productDetails }: { productDetails: any }) => {
           </div>
 
           <div className="mt-3">
-            <span className="text-3xl font-bold text-orange-500">
-              ${productDetails?.sale_price}
-            </span>
-            <div className="flex gap-2 pb-2 text-lg border-b border-b-slate-200">
-              <span className="text-gray-400 line-through">
-                ${productDetails?.regular_price}
+            {productDetails.starting_date ? (
+              <>
+                <span className="text-lg font-bold text-gray-900">
+                  {(
+                    productDetails?.sale_price * USD_TO_VND_RATE
+                  )?.toLocaleString("vi-VN")}
+                  ₫
+                </span>
+                <span className="text-sm line-through text-gray-400 ml-4">
+                  {(
+                    productDetails?.regular_price * USD_TO_VND_RATE
+                  )?.toLocaleString("vi-VN")}
+                  ₫
+                </span>
+              </>
+            ) : (
+              <span className="text-lg font-bold text-gray-900">
+                {(
+                  productDetails?.regular_price * USD_TO_VND_RATE
+                )?.toLocaleString("vi-VN")}
+                ₫
               </span>
-              <span className="text-gray-500">-{discountPercentage}%</span>
-            </div>
-
+            )}
+            {productDetails.starting_date && productDetails?.regular_price && (
+              <span className="ml-2 text-xs bg-orange-100 text-orange-600 px-2 py-0.5 rounded-full font-medium">
+                -
+                {Math.round(
+                  ((productDetails.regular_price - productDetails.sale_price) /
+                    productDetails.regular_price) *
+                    100
+                )}
+                %
+              </span>
+            )}
             <div className="mt-2">
               <div className="flex flex-col md:flex-row items-start gap-5 mt-4">
                 {/* Size Options */}
