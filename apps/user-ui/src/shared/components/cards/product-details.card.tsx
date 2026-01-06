@@ -135,7 +135,30 @@ const ProductDetailsCard = ({
 
             {/* Price Section */}
             <div className="flex items-center gap-3 mb-3">
-              <span className="text-2xl font-bold text-orange-600">
+              {productDetails.starting_date ? (
+                <>
+                  <span className="text-lg font-bold text-gray-900">
+                    {(
+                      productDetails?.sale_price * USD_TO_VND_RATE
+                    )?.toLocaleString("vi-VN")}
+                    ₫
+                  </span>
+                  <span className="text-sm line-through text-gray-400">
+                    {(
+                      productDetails?.regular_price * USD_TO_VND_RATE
+                    )?.toLocaleString("vi-VN")}
+                    ₫
+                  </span>
+                </>
+              ) : (
+                <span className="text-lg font-bold text-gray-900">
+                  {(
+                    productDetails?.regular_price * USD_TO_VND_RATE
+                  )?.toLocaleString("vi-VN")}
+                  ₫
+                </span>
+              )}
+              {/* <span className="text-2xl font-bold text-orange-600">
                 {(productDetails?.sale_price * USD_TO_VND_RATE)?.toLocaleString(
                   "vi-VN"
                 )}
@@ -148,19 +171,20 @@ const ProductDetailsCard = ({
                   )?.toLocaleString("vi-VN")}
                   ₫
                 </span>
-              )}
-              {productDetails?.regular_price && (
-                <span className="text-xs bg-orange-100 text-orange-600 px-2 py-0.5 rounded-full font-medium">
-                  -
-                  {Math.round(
-                    ((productDetails.regular_price -
-                      productDetails.sale_price) /
-                      productDetails.regular_price) *
-                      100
-                  )}
-                  %
-                </span>
-              )}
+              )} */}
+              {productDetails.starting_date &&
+                productDetails?.regular_price && (
+                  <span className="text-xs bg-orange-100 text-orange-600 px-2 py-0.5 rounded-full font-medium">
+                    -
+                    {Math.round(
+                      ((productDetails.regular_price -
+                        productDetails.sale_price) /
+                        productDetails.regular_price) *
+                        100
+                    )}
+                    %
+                  </span>
+                )}
             </div>
 
             {/* Stock Status */}

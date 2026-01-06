@@ -1,13 +1,13 @@
 "use client";
 
+export const dynamic = 'force-dynamic';
+
 import React from "react";
 import {
   useReactTable,
   getCoreRowModel,
   flexRender,
 } from "@tanstack/react-table";
-
-export const dynamic = 'force-dynamic';
 import dynamic from "next/dynamic";
 
 const SalesChart = dynamic(
