@@ -192,7 +192,7 @@ const Page = () => {
             </h3>
             <ul className="space-y-2 !mt-3">
               {isLoading ? (
-                <p>Đang tải...</p>
+                <p>Đang tải danh mục...</p>
               ) : (
                 data?.categories?.map((category: any) => (
                   <li
