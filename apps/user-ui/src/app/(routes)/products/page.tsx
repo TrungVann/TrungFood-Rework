@@ -21,6 +21,8 @@ const Page = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [tempPriceRange, setTempPriceRange] = useState([0, 1199]);
 
+  const USD_TO_VND_RATE = 26000;
+
   const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
 
   const updateURL = () => {
@@ -151,16 +153,21 @@ const Page = () => {
               />
             </div>
 
-            <div className="mt-4 flex items-center justify-between gap-4 rounded-xl border border-orange-100 bg-white/80 backdrop-blur px-4 py-3 shadow-sm">
+            <div className="mt-4 flex items-center justify-between gap-4 rounded-xl border border-orange-100 bg-white/80 px-4 py-3 shadow-sm backdrop-blur-sm">
               {/* Price range */}
               <div className="flex flex-col">
-                <span className="text-[11px] uppercase tracking-wide text-orange-400">
+                <span className="text-[11px] font-medium uppercase tracking-wider text-orange-400">
                   Khoảng giá
                 </span>
-                <span className="text-sm font-semibold text-gray-800">
-                  ${tempPriceRange[0]}
-                  <span className="mx-1 text-gray-400">–</span>$
-                  {tempPriceRange[1]}
+                <span className="mt-1 text-sm font-semibold text-gray-800">
+                  {(tempPriceRange[0] * USD_TO_VND_RATE).toLocaleString(
+                    "vi-VN"
+                  )}
+                  đ<span className="mx-1.5 text-gray-400">–</span>
+                  {(tempPriceRange[1] * USD_TO_VND_RATE).toLocaleString(
+                    "vi-VN"
+                  )}
+                  đ
                 </span>
               </div>
 
@@ -170,12 +177,12 @@ const Page = () => {
                   setPriceRange(tempPriceRange);
                   setPage(1);
                 }}
-                className="relative overflow-hidden rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-2 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:from-orange-600 hover:to-orange-700 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
+                className="group relative overflow-hidden rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:shadow-lg hover:scale-[1.02] active:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
               >
                 <span className="relative z-10">Áp dụng</span>
 
-                {/* shine effect */}
-                <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 hover:translate-x-full" />
+                {/* Shine effect */}
+                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
               </button>
             </div>
 

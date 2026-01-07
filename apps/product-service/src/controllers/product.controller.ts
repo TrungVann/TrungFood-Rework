@@ -230,6 +230,10 @@ export const createProduct = async (
       return next(new AuthError("Only seller can create products!"));
     }
 
+    if (!req.seller.shop || !req.seller.shop.id) {
+      return next(new AuthError("Seller must have a shop to create products!"));
+    }
+
     const slugChecking = await prisma.products.findUnique({
       where: {
         slug,

@@ -49,7 +49,7 @@ const Footer = () => {
         {/* MY ACCOUNT */}
         <div>
           <h4 className="text-sm font-semibold uppercase tracking-wide text-gray-900">
-            Tài khoản cảu tôi
+            Tài khoản của tôi
           </h4>
           <ul className="mt-4 space-y-3 text-sm">
             {[

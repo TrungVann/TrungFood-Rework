@@ -11,6 +11,8 @@ const Page = () => {
   const [order, setOrder] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  const USD_TO_VND_RATE = 26000;
+
   useEffect(() => {
     const fetchOrder = async () => {
       try {
@@ -37,13 +39,17 @@ const Page = () => {
   }
 
   if (!order) {
-    return <p className="text-center text-sm text-red-500">Order not found.</p>;
+    return (
+      <p className="text-center text-sm text-red-500">
+        Đơn hàng không tìm thấy.
+      </p>
+    );
   }
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
       <h1 className="text-2xl font-bold text-gray-800 mb-4">
-        Order #{order.id.slice(-6)}
+        Đơn hàng #{order.id.slice(-6)}
       </h1>
       {/* Delivery Progress Bar */}
       <div className="my-4">
@@ -228,7 +234,7 @@ const Page = () => {
                   )}
               </div>
               <p className="text-sm font-semibold text-gray-800">
-                ${item.price.toFixed(2)}
+                {(item.price * USD_TO_VND_RATE).toLocaleString("vi-VN")}đ
               </p>
             </div>
           ))}

@@ -1,13 +1,19 @@
 "use client";
 
-export const dynamic = 'force-dynamic';
-
 import React from "react";
 import {
   useReactTable,
   getCoreRowModel,
   flexRender,
 } from "@tanstack/react-table";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
+  Legend,
+} from "recharts";
 import dynamic from "next/dynamic";
 
 const SalesChart = dynamic(
@@ -24,16 +30,6 @@ const SalesChart = dynamic(
 const GeographicalMap = dynamic(
   () => import("../../shared/components/charts/geographicalMap"),
   { ssr: false, loading: () => <p className="text-white">Loading Map...</p> }
-);
-
-const PieChartComponent = dynamic(
-  () => import("../../shared/components/charts/pie-chart").then(
-    (mod) => mod.PieChartComponent
-  ),
-  {
-    ssr: false,
-    loading: () => <p className="text-white">Loading PieChart...</p>,
-  }
 );
 
 // Device data
@@ -58,19 +54,19 @@ const orders = [
 const columns = [
   {
     accessorKey: "id",
-    header: "ID Đơn hàng",
+    header: "Order ID",
   },
   {
     accessorKey: "customer",
-    header: "Khách hàng",
+    header: "Customer",
   },
   {
     accessorKey: "amount",
-    header: "Tổng",
+    header: "Amount",
   },
   {
     accessorKey: "status",
-    header: "Trạng thái",
+    header: "Status",
     cell: ({ getValue }: any) => {
       const value = getValue();
       const color =
@@ -94,7 +90,7 @@ const OrdersTable = () => {
   return (
     <div className="mt-6">
       <h2 className="text-white text-xl font-semibold mb-4">
-        Đơn hàng hiện tại
+        Recent Orders
         <span className="block text-sm text-slate-400 font-normal">
           A quick snapshot of your latest transactions.
         </span>
@@ -163,7 +159,70 @@ const DashboardPage = () => {
             </span>
           </h2>
           <div className="mt-14">
-            <PieChartComponent data={deviceData} colors={COLORS} />
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <defs>
+                  <filter
+                    id="shadow"
+                    x="-10%"
+                    y="-10%"
+                    width="120%"
+                    height="120%"
+                  >
+                    <feDropShadow
+                      dx="0"
+                      dy="0"
+                      stdDeviation="4"
+                      floodColor="#000"
+                      floodOpacity="0.2"
+                    />
+                  </filter>
+                </defs>
+
+                <Pie
+                  data={deviceData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={90}
+                  paddingAngle={3}
+                  stroke="#0f172a"
+                  strokeWidth={2}
+                  isAnimationActive
+                  filter="url(#shadow)"
+                >
+                  {deviceData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#1e293b",
+                    border: "none",
+                    borderRadius: "8px",
+                  }}
+                  labelStyle={{ color: "#fff" }}
+                  itemStyle={{ color: "#fff" }}
+                />
+
+                {/* External Legend */}
+                <Legend
+                  layout="horizontal"
+                  verticalAlign="bottom"
+                  align="center"
+                  iconType="circle"
+                  formatter={(value) => (
+                    <span className="text-white text-sm ml-1">{value}</span>
+                  )}
+                />
+              </PieChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </div>

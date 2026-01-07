@@ -13,30 +13,33 @@ const Hero = () => {
 
   const banners = [
     {
-      title: "Fast Food Combo",
-      subtitle: "Order now & get <span class='text-yellow-400'>15%</span> OFF",
-      price: "From $5 only",
+      title: "Combo đồ ăn nhanh",
+      subtitle:
+        "Đặt hàng ngày & nhận giảm giá đến <span class='text-yellow-400'>15%</span>",
+      price: "Chỉ từ 100.000đ",
       image:
         "https://images.unsplash.com/photo-1505826759037-406b40feb4cd?q=80&w=1172&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
-      title: "Fresh Healthy Meals",
-      subtitle: "Eat clean – save <span class='text-yellow-400'>10%</span>",
-      price: "Starting $8",
+      title: "Bữa Ăn Dinh Dưỡng",
+      subtitle:
+        "Thực phẩm sạch – tiết kiệm ngay <span class='text-yellow-400'>10%</span>",
+      price: "Chỉ từ 150.000đ",
       image:
         "https://images.unsplash.com/photo-1695606393272-3b354f2bcbf7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
-      title: "Sweet Desserts",
-      subtitle: "This week only <span class='text-yellow-400'>20%</span> OFF",
-      price: "From $3",
+      title: "Món Ngọt Hảo Hạng",
+      subtitle:
+        "Chỉ tuần này giảm tới <span class='text-yellow-400'>20%</span>",
+      price: "Chỉ từ 50.000đ",
       image:
         "https://images.unsplash.com/photo-1722408156506-94e073cda214?q=80&w=1629&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
-      title: "Asian Street Food",
+      title: "Tinh Hoa Ẩm Thực Đường Phố Châu Á",
       subtitle: "Limited offer <span class='text-yellow-400'>12%</span> OFF",
-      price: "From $6",
+      price: "Chỉ từ 120.000đ",
       image:
         "https://images.unsplash.com/photo-1588644525273-f37b60d78512?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
@@ -92,7 +95,7 @@ const Hero = () => {
                 onClick={() => router.push("/products")}
                 className="mt-8 w-[160px] h-[45px] bg-yellow-400 text-black font-semibold flex items-center justify-center gap-2 rounded hover:bg-yellow-300 transition"
               >
-                Order Now <MoveRight size={18} />
+                Đặt hàng ngay <MoveRight size={18} />
               </button>
             </div>
           </div>

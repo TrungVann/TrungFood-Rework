@@ -122,7 +122,7 @@ const OrdersTable = () => {
         <Search size={18} className="text-gray-400 mr-2" />
         <input
           type="text"
-          placeholder="Search orders..."
+          placeholder="Tìm kiếm đơn hàng..."
           className="w-full bg-transparent text-white outline-none"
           value={globalFilter}
           onChange={(e) => setGlobalFilter(e.target.value)}
@@ -132,7 +132,7 @@ const OrdersTable = () => {
       {/* Table */}
       <div className="overflow-x-auto bg-gray-900 rounded-lg p-4">
         {isLoading ? (
-          <p className="text-center text-white">Loading orders...</p>
+          <p className="text-center text-white">Đang tải đơn hàng...</p>
         ) : (
           <table className="w-full text-white">
             <thead>

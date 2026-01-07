@@ -31,8 +31,8 @@ model users {
   imagesId    String?       @db.ObjectId
   followings  followers[]
   orders      orders[]
-  carts       carts[]
-  wishlists   wishlists[]
+  carts       carts[] // User's cart items
+  wishlists   wishlists[] // User's wishlist items
 }
 
 model shopReviews {
@@ -154,10 +154,10 @@ model products {
   deletedAt             DateTime?
   createdAt             DateTime      @default(now())
   updatedAt             DateTime      @updatedAt
-  shopId                String?       @db.ObjectId
-  Shop                  shops?        @relation(fields: [shopId], references: [id])
-  carts                 carts[]
-  wishlists             wishlists[]
+  shopId                String       @db.ObjectId
+  Shop                  shops        @relation(fields: [shopId], references: [id])
+  carts                 carts[] // Products in carts
+  wishlists             wishlists[] // Products in wishlists
 }
 
 model userAnalytics {

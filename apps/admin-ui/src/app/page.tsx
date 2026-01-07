@@ -46,13 +46,13 @@ const Page = () => {
       <div className="md:w-[450px] pb-8 bg-slate-800 rounded-md shadow">
         <form className="p-5" onSubmit={handleSubmit(onSubmit)}>
           <h1 className="text-3xl pb-3 pt-4 font-semibold text-center text-white font-Poppins">
-            Welcome Admin
+            Xin chào quản trị viên
           </h1>
           <Input
             label="Email"
             placeholder="abcxyz@gmail.com"
             {...register("email", {
-              required: "Email is required",
+              required: "Email không được để trống",
               pattern: {
                 value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                 message: "Invalid email address",
@@ -62,11 +62,11 @@ const Page = () => {
 
           <div className="mt-3">
             <Input
-              label="Password"
+              label="Mật khẩu"
               type="password"
               placeholder="******"
               {...register("password", {
-                required: "Password is required",
+                required: "Mật khẩu không được để trống",
               })}
             />
           </div>
@@ -79,7 +79,7 @@ const Page = () => {
             {loginMutation.isPending ? (
               <div className="h-6 w-6 border-2 border-gray-100 border-t-transparent rounded-full animate-spin" />
             ) : (
-              <>Login</>
+              <>Đăng nhập</>
             )}
           </button>
 

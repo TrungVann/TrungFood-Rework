@@ -190,7 +190,7 @@ export const loginUser = async (
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return next(new ValidationError("Email và password là bắt buộc!"));
+      return next(new ValidationError("Email và mật khẩu là bắt buộc!"));
     }
 
     const user = await prisma.users.findUnique({ where: { email } });
@@ -470,10 +470,18 @@ export const refreshToken = async (
       { expiresIn: "15m" }
     );
 
+    const newRefreshToken = jwt.sign(
+      { id: decoded.id, role: decoded.role },
+      process.env.REFRESH_TOKEN_SECRET as string,
+      { expiresIn: "10y" }
+    );
+
     if (decoded.role === "user" || decoded.role === "admin") {
       setCookie(res, "access_token", newAccessToken);
+      setCookie(res, "refresh_token", newRefreshToken);
     } else if (decoded.role === "seller") {
       setCookie(res, "seller-access-token", newAccessToken);
+      setCookie(res, "seller-refresh-token", newRefreshToken);
     }
 
     req.role = decoded.role;
@@ -607,12 +615,10 @@ export const registerSeller = async (
     await trackOtpRequests(email, next);
     await sendOtp(name, email, "seller-activation");
 
-    res
-      .status(200)
-      .json({
-        message:
-          "OTP đã được gửi tới tài khoản của bạn. Hãy xác minh tài khoản của bạn.",
-      });
+    res.status(200).json({
+      message:
+        "OTP đã được gửi tới tài khoản của bạn. Hãy xác minh tài khoản của bạn.",
+    });
   } catch (error) {
     next(error);
   }
@@ -653,12 +659,10 @@ export const verifySeller = async (
       },
     });
 
-    res
-      .status(201)
-      .json({
-        seller,
-        message: "Đăng ký trở thành người bán hàng thành công!",
-      });
+    res.status(201).json({
+      seller,
+      message: "Đăng ký trở thành người bán hàng thành công!",
+    });
   } catch (error) {
     next(error);
   }
@@ -726,29 +730,57 @@ export const createStripeConnectLink = async (
       return next(new ValidationError("Người bán không khả dụng với ID này!"));
     }
 
-    const account = await stripe.accounts.create({
-      type: "express",
-      email: seller?.email,
-      country: "GB",
-      capabilities: {
-        card_payments: { requested: true },
-        transfers: { requested: true },
-      },
-    });
+    let accountId = seller.stripeId;
 
-    await prisma.sellers.update({
-      where: {
-        id: sellerId,
-      },
-      data: {
-        stripeId: account.id,
-      },
-    });
+    if (!accountId) {
+      const account = await stripe.accounts.create({
+        type: "express",
+        email: seller?.email,
+        country: "US",
+        capabilities: {
+          card_payments: { requested: true },
+          transfers: { requested: true },
+        },
+      });
+
+      accountId = account.id;
+
+      await prisma.sellers.update({
+        where: { id: sellerId },
+        data: { stripeId: accountId },
+      });
+    }
+
+    // const account = await stripe.accounts.create({
+    //   type: "express",
+    //   email: seller?.email,
+    //   country: "US",
+    //   capabilities: {
+    //     card_payments: { requested: true },
+    //     transfers: { requested: true },
+    //   },
+    // });
+
+    // await prisma.sellers.update({
+    //   where: {
+    //     id: sellerId,
+    //   },
+    //   data: {
+    //     stripeId: account.id,
+    //   },
+    // });
+
+    // const accountLink = await stripe.accountLinks.create({
+    //   account: account.id,
+    //   refresh_url: `http://localhost:3000/success`,
+    //   return_url: `http://localhost:3000/success`,
+    //   type: "account_onboarding",
+    // });
 
     const accountLink = await stripe.accountLinks.create({
-      account: account.id,
-      refresh_url: `http://localhost:3000/success`,
-      return_url: `http://localhost:3000/success`,
+      account: accountId,
+      refresh_url: "http://localhost:3000/stripe/refresh",
+      return_url: "http://localhost:3000/stripe/success",
       type: "account_onboarding",
     });
 
@@ -793,7 +825,7 @@ export const loginSeller = async (
     const refreshToken = jwt.sign(
       { id: seller.id, role: "seller" },
       process.env.REFRESH_TOKEN_SECRET as string,
-      { expiresIn: "7d" }
+      { expiresIn: "10y" }
     );
 
     // store refresh token and access token

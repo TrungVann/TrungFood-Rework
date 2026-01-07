@@ -26,7 +26,7 @@ const SidebarItem = ({ icon, title, isActive, href }: Props) => {
   };
 
   const handleClick = (e: React.MouseEvent) => {
-    if (title === "Logout") {
+    if (title === "Đăng xuất") {
       e.preventDefault();
       logoutHandler();
     }

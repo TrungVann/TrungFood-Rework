@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import axiosInstance from "apps/seller-ui/src/utils/axiosInstance";
 import { useParams, useRouter } from "next/navigation";
+import Image from "next/image";
 
 const statuses = [
   "Ordered",
@@ -88,7 +89,7 @@ const Page = () => {
       {/* Status Selector */}
       <div className="mb-6">
         <label className="text-sm font-medium text-gray-300 mr-3">
-          Update Delivery Status:
+          Cập nhật trạng thái đơn hàng:
         </label>
         <select
           value={order.deliveryStatus}
@@ -213,7 +214,7 @@ const Page = () => {
       {/* Order Items */}
       <div>
         <h2 className="text-lg font-semibold text-gray-300 mb-4">
-          Order Items
+          Sản phẩm trong đơn hàng
         </h2>
         <div className="space-y-4">
           {order.items.map((item: any) => (
@@ -221,17 +222,19 @@ const Page = () => {
               key={item.productId}
               className="border border-gray-200 rounded-md p-4 flex items-center gap-4"
             >
-              <img
+              <Image
                 src={item.product?.images[0]?.url || "/placeholder.png"}
                 alt={item.product?.title || "Product image"}
                 className="w-16 h-16 object-cover rounded-md border border-gray-200"
+                width={300}
+                height={300}
               />
               <div className="flex-1">
                 <p className="font-medium text-gray-200">
                   {item.product?.title || "Unnamed Product"}
                 </p>
                 <p className="text-sm text-gray-300">
-                  Quantity: {item.quantity}
+                  Số lượng: {item.quantity}
                 </p>
                 {item.selectedOptions &&
                   Object.keys(item.selectedOptions).length > 0 && (
