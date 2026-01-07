@@ -21,6 +21,7 @@ import useLocationTracking from "apps/user-ui/src/hooks/useLocationTracking";
 import useDeviceTracking from "apps/user-ui/src/hooks/useDeviceTracking";
 import useUser from "apps/user-ui/src/hooks/useUser";
 import { sendKafkaEvent } from "apps/user-ui/src/actions/track-user";
+import { useRouter } from "next/navigation";
 
 const TABS = ["Products", "Offers", "Reviews"];
 
@@ -39,6 +40,7 @@ const SellerProfile = ({
   const location = useLocationTracking();
   const deviceInfo = useDeviceTracking();
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const { data: products, isLoading } = useQuery({
     queryKey: ["seller-products"],
@@ -53,7 +55,7 @@ const SellerProfile = ({
 
   useEffect(() => {
     const fetchFollowStatus = async () => {
-      if (!shop?.id) return;
+      if (!shop?.id || !user) return;
       try {
         const res = await axiosInstance.get(
           `/seller/api/is-following/${shop?.id}`
@@ -65,7 +67,13 @@ const SellerProfile = ({
     };
 
     fetchFollowStatus();
-  }, [shop?.id]);
+  }, [shop?.id, user]);
+
+  useEffect(() => {
+    if (!user) {
+      setIsFollowing(false);
+    }
+  }, [user]);
 
   const { data: events, isLoading: isEventsLoading } = useQuery({
     queryKey: ["seller-events"],
@@ -187,7 +195,13 @@ const SellerProfile = ({
                   ? "bg-red-500 hover:bg-red-600"
                   : "bg-blue-600 hover:bg-blue-700"
               }`}
-              onClick={() => toggleFollowMutation.mutate()}
+              onClick={() => {
+                if (!user) {
+                  router.push("/login");
+                } else {
+                  toggleFollowMutation.mutate();
+                }
+              }}
               disabled={toggleFollowMutation.isPending}
             >
               <Heart size={18} />
