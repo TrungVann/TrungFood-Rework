@@ -3,8 +3,6 @@ import isAuthenticated from "@packages/middleware/isAuthenticated";
 import express, { Router } from "express";
 import {
   addNewAdmin,
-  deleteCategory,
-  deleteSubCategory,
   getAllAdmins,
   getAllCustomizations,
   getAllEvents,
@@ -16,6 +14,8 @@ import {
   updateCategory,
   updateSiteConfig,
   updateSubCategory,
+  deleteCategory,
+  deleteSubCategory,
 } from "../controllers/admin.controller";
 
 const router: Router = express.Router();

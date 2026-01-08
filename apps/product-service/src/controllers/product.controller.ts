@@ -501,7 +501,7 @@ export const getAllProducts = async (
         take: limit,
         include: {
           images: true,
-          Shop: true,
+          // Shop: true,  //load quá nhiều data không cần thiết
         },
         where: baseFilter,
         orderBy: {

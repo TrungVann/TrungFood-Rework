@@ -473,7 +473,7 @@ export const refreshToken = async (
     const newRefreshToken = jwt.sign(
       { id: decoded.id, role: decoded.role },
       process.env.REFRESH_TOKEN_SECRET as string,
-      { expiresIn: "10y" }
+      { expiresIn: "7d" }
     );
 
     if (decoded.role === "user" || decoded.role === "admin") {
@@ -825,7 +825,7 @@ export const loginSeller = async (
     const refreshToken = jwt.sign(
       { id: seller.id, role: "seller" },
       process.env.REFRESH_TOKEN_SECRET as string,
-      { expiresIn: "10y" }
+      { expiresIn: "7d" }
     );
 
     // store refresh token and access token

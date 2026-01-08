@@ -40,7 +40,7 @@ const fetchEvents = async () => {
 const SellerProfile = () => {
   const { seller, isLoading } = useSeller();
   const [isFollowing, setIsFollowing] = useState(false);
-  const [activeTab, setActiveTab] = useState("Products");
+  const [activeTab, setActiveTab] = useState("Sản phẩm");
   const [editType, setEditType] = useState<"cover" | "avatar" | null>(null); // Store type of image editing
   const router = useRouter();
 
@@ -256,7 +256,7 @@ const SellerProfile = () => {
 
             {/* Content */}
             <div className="bg-gray-800 p-3 rounded-lg my-6 text-white">
-              {activeTab === "Products" && (
+              {activeTab === "Sản phẩm" && (
                 <div className="m-auto grid grid-cols-1 md:grid-cols-3 gap-5">
                   {products?.map((product: any) => (
                     <ProductCard key={product.id} product={product} />
@@ -264,7 +264,7 @@ const SellerProfile = () => {
                   {products?.length === 0 && <p>Chưa có sản phẩm!</p>}
                 </div>
               )}
-              {activeTab === "Offers" && (
+              {activeTab === "Khuyến mãi" && (
                 <div className="m-auto grid grid-cols-1 md:grid-cols-3 gap-5">
                   {events?.map((product: any) => (
                     <ProductCard key={product.id} product={product} />
@@ -274,7 +274,7 @@ const SellerProfile = () => {
                   )}
                 </div>
               )}
-              {activeTab === "Reviews" && <div>Chưa có đánh giá nào!</div>}
+              {activeTab === "Đánh giá" && <div>Chưa có đánh giá nào!</div>}
             </div>
           </div>
 
