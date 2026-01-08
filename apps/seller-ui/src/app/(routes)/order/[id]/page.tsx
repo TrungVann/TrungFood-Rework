@@ -9,11 +9,11 @@ import Image from "next/image";
 const USD_TO_VND_RATE = 26000;
 
 const statuses = [
-  "Đã Đặt Hàng",
-  "Đã Đóng Gói",
-  "Đã Gửi Hàng",
-  "Đang Giao Hàng",
-  "Đã Giao Hàng Thành Công",
+  "Ordered",
+  "Packed",
+  "Shipped",
+  "Out for Delivery",
+  "Delivered",
 ];
 
 const Page = () => {
@@ -44,6 +44,8 @@ const Page = () => {
   ) => {
     const newStatus = e.target.value;
     setUpdating(true);
+    console.log("Selected status:", newStatus);
+
     try {
       await axiosInstance.put(`/order/api/update-status/${order.id}`, {
         deliveryStatus: newStatus,

@@ -55,11 +55,11 @@ const Page = () => {
       <div className="my-4">
         <div className="flex items-center justify-between text-xs font-medium text-gray-500 mb-2">
           {[
-            "Đã đặt hàng",
-            "Đã đóng gói",
-            "Đã giao cho vận chuyển",
-            "Đang giao hàng",
-            "Đã giao hàng thành công",
+            "Ordered",
+            "Packed",
+            "Shipped",
+            "Out for Delivery",
+            "Delivered",
           ].map((step, idx) => {
             const current =
               step.toLowerCase() ===
@@ -67,11 +67,11 @@ const Page = () => {
             const passed =
               idx <=
               [
-                "Đã đặt hàng",
-                "Đã đóng gói",
-                "Đã giao cho vận chuyển",
-                "Đang giao hàng",
-                "Đã giao hàng thành công",
+                "Ordered",
+                "Packed",
+                "Shipped",
+                "Out for Delivery",
+                "Delivered",
               ].findIndex(
                 (s) =>
                   s.toLowerCase() ===
@@ -95,20 +95,20 @@ const Page = () => {
         </div>
         <div className="flex items-center">
           {[
-            "Đã đặt hàng",
-            "Đã đóng gói",
-            "Đã giao cho vận chuyển",
-            "Đang giao hàng",
-            "Đã giao hàng thành công",
+            "Ordered",
+            "Packed",
+            "Shipped",
+            "Out for Delivery",
+            "Delivered",
           ].map((step, idx) => {
             const isReached =
               idx <=
               [
-                "Đã đặt hàng",
-                "Đã đóng gói",
-                "Đã giao cho vận chuyển",
-                "Đang giao hàng",
-                "Đã giao hàng thành công",
+                "Ordered",
+                "Packed",
+                "Shipped",
+                "Out for Delivery",
+                "Delivered",
               ].findIndex(
                 (s) =>
                   s.toLowerCase() ===

@@ -691,7 +691,7 @@ export const updateDeliveryStatus = async (
       "Delivered",
     ];
     if (!allowedStatuses.includes(deliveryStatus)) {
-      return next(new ValidationError("Invalid delivery status."));
+      return next(new ValidationError("Trạng thái đơn hàng không hợp lệ!."));
     }
 
     const existingOrder = await prisma.orders.findUnique({
@@ -699,7 +699,7 @@ export const updateDeliveryStatus = async (
     });
 
     if (!existingOrder) {
-      return next(new NotFoundError("Order not found!"));
+      return next(new NotFoundError("Không tìm thấy đơn hàng!"));
     }
 
     const updatedOrder = await prisma.orders.update({
@@ -712,7 +712,7 @@ export const updateDeliveryStatus = async (
 
     return res.status(200).json({
       success: true,
-      message: "Delivery status updated successfully.",
+      message: "Trạng thái giao hàng đã được cập nhật thành công.",
       order: updatedOrder,
     });
   } catch (error) {
