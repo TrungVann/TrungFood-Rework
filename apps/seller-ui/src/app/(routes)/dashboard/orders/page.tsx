@@ -12,6 +12,8 @@ import axiosInstance from "apps/seller-ui/src/utils/axiosInstance";
 import Link from "next/link";
 import BreadCrumbs from "apps/seller-ui/src/shared/components/breadcrumbs";
 
+const USD_TO_VND_RATE = 26000;
+
 const fetchOrders = async () => {
   const res = await axiosInstance.get("/order/api/get-seller-orders");
   return res.data.orders;
@@ -39,7 +41,7 @@ const OrdersTable = () => {
       },
       {
         accessorKey: "user.name",
-        header: "Buyer",
+        header: "Người mua",
         cell: ({ row }: any) => (
           <span className="text-white">
             {row.original.user?.name ?? "Guest"}
@@ -48,12 +50,16 @@ const OrdersTable = () => {
       },
       {
         accessorKey: "total",
-        header: "Total",
-        cell: ({ row }: any) => <span>${row.original.total}</span>,
+        header: "Tổng",
+        cell: ({ row }: any) => (
+          <span>
+            {(row.original.total * USD_TO_VND_RATE).toLocaleString("vi-VN")}₫
+          </span>
+        ),
       },
       {
         accessorKey: "status",
-        header: "Status",
+        header: "Trạng thái",
         cell: ({ row }: any) => (
           <span
             className={`px-2 py-1 rounded-full text-xs font-medium ${
@@ -68,14 +74,14 @@ const OrdersTable = () => {
       },
       {
         accessorKey: "createdAt",
-        header: "Date",
+        header: "Ngày",
         cell: ({ row }: any) => {
           const date = new Date(row.original.createdAt).toLocaleDateString();
           return <span className="text-white text-sm">{date}</span>;
         },
       },
       {
-        header: "Actions",
+        header: "Hành động",
         cell: ({ row }: any) => (
           <Link
             href={`/order/${row.original.id}`}

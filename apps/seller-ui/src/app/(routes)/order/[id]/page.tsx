@@ -6,12 +6,14 @@ import axiosInstance from "apps/seller-ui/src/utils/axiosInstance";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 
+const USD_TO_VND_RATE = 26000;
+
 const statuses = [
-  "Ordered",
-  "Packed",
-  "Shipped",
-  "Out for Delivery",
-  "Delivered",
+  "Đã Đặt Hàng",
+  "Đã Đóng Gói",
+  "Đã Gửi Hàng",
+  "Đang Giao Hàng",
+  "Đã Giao Hàng Thành Công",
 ];
 
 const Page = () => {
@@ -67,7 +69,11 @@ const Page = () => {
   }
 
   if (!order) {
-    return <p className="text-center text-sm text-red-500">Order not found.</p>;
+    return (
+      <p className="text-center text-sm text-red-500">
+        Đơn hàng không tìm thấy.
+      </p>
+    );
   }
 
   return (
@@ -83,7 +89,7 @@ const Page = () => {
       </div>
 
       <h1 className="text-2xl font-bold text-gray-200 mb-4">
-        Order #{order.id.slice(-6)}
+        Đơn hàng #{order.id.slice(-6)}
       </h1>
 
       {/* Status Selector */}
@@ -162,17 +168,19 @@ const Page = () => {
       {/* Summary Info */}
       <div className="mb-6 space-y-1 text-sm text-gray-200">
         <p>
-          <span className="font-semibold">Payment Status:</span>{" "}
+          <span className="font-semibold">Trạng thái đơn hàng:</span>{" "}
           <span className="text-green-600 font-medium">{order.status}</span>
         </p>
         <p>
-          <span className="font-semibold">Total Paid:</span>{" "}
-          <span className="font-medium">${order.total.toFixed(2)}</span>
+          <span className="font-semibold">Tổng thanh toán:</span>{" "}
+          <span className="font-medium">
+            {(order.total * USD_TO_VND_RATE).toLocaleString("vi-VN")}₫
+          </span>
         </p>
 
         {order.discountAmount > 0 && (
           <p>
-            <span className="font-semibold">Discount Applied:</span>{" "}
+            <span className="font-semibold">Áp dụng mã giảm giá:</span>{" "}
             <span className="text-green-400">
               -${order.discountAmount.toFixed(2)} (
               {order.couponCode?.discountType === "percentage"
@@ -185,7 +193,7 @@ const Page = () => {
 
         {order.couponCode && (
           <p>
-            <span className="font-semibold">Coupon Used:</span>{" "}
+            <span className="font-semibold">Mã giảm giá sử dụng:</span>{" "}
             <span className="text-blue-400">
               {order.couponCode.public_name}
             </span>
@@ -193,7 +201,7 @@ const Page = () => {
         )}
 
         <p>
-          <span className="font-semibold">Date:</span>{" "}
+          <span className="font-semibold">Ngày:</span>{" "}
           {new Date(order.createdAt).toLocaleDateString()}
         </p>
       </div>
@@ -201,7 +209,7 @@ const Page = () => {
       {/* Shipping Address */}
       {order.shippingAddress && (
         <div className="mb-6 text-sm text-gray-300">
-          <h2 className="text-md font-semibold mb-2">Shipping Address</h2>
+          <h2 className="text-md font-semibold mb-2">Địa chỉ giao hàng</h2>
           <p>{order.shippingAddress.name}</p>
           <p>
             {order.shippingAddress.street}, {order.shippingAddress.city},{" "}
@@ -254,7 +262,7 @@ const Page = () => {
                   )}
               </div>
               <p className="text-sm font-semibold text-gray-200">
-                ${item.price.toFixed(2)}
+                {(item.price * USD_TO_VND_RATE).toLocaleString("vi-VN")}₫
               </p>
             </div>
           ))}

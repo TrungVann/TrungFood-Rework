@@ -163,7 +163,7 @@ const ImageEditModal = ({ editType, onClose }: ImageEditModalProps) => {
                 src={previewUrl}
                 alt="Preview"
                 layout="fill"
-                objectFit="contain"
+                style={{ objectFit: "contain" }}
               />
             )}
           </div>

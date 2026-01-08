@@ -13,6 +13,8 @@ import axiosInstance from "apps/seller-ui/src/utils/axiosInstance";
 import Link from "next/link";
 import BreadCrumbs from "apps/seller-ui/src/shared/components/breadcrumbs";
 
+const USD_TO_VND_RATE = 26000;
+
 const fetchOrders = async () => {
   const res = await axiosInstance.get("/order/api/get-seller-orders");
   return res.data.orders;
@@ -40,7 +42,7 @@ const SellerPayments = () => {
       },
       {
         accessorKey: "user.name",
-        header: "Buyer",
+        header: "Người mua",
         cell: ({ row }: any) => (
           <span className="text-white">
             {row.original.user?.name || "Guest"}
@@ -48,28 +50,36 @@ const SellerPayments = () => {
         ),
       },
       {
-        header: "Seller Earning",
+        header: "Người bán nhận",
         cell: ({ row }: any) => {
           const sellerShare = row.original.total * 0.9;
           return (
             <span className="text-green-400 font-medium">
-              ${sellerShare.toFixed(2)}
+              {(
+                parseFloat(sellerShare.toFixed(2)) * USD_TO_VND_RATE
+              ).toLocaleString("vi-VN")}{" "}
+              ₫
             </span>
           );
         },
       },
       {
-        header: "Admin Fee",
+        header: "Phí cho quản trị viên",
         cell: ({ row }: any) => {
           const adminFee = row.original.total * 0.1;
           return (
-            <span className="text-yellow-400">${adminFee.toFixed(2)}</span>
+            <span className="text-yellow-400">
+              {(
+                parseFloat(adminFee.toFixed(2)) * USD_TO_VND_RATE
+              ).toLocaleString("vi-VN")}{" "}
+              ₫
+            </span>
           );
         },
       },
       {
         accessorKey: "status",
-        header: "Status",
+        header: "Trạng thái",
         cell: ({ row }: any) => (
           <span
             className={`px-2 py-1 rounded-full text-xs font-medium ${
@@ -84,14 +94,14 @@ const SellerPayments = () => {
       },
       {
         accessorKey: "createdAt",
-        header: "Date",
+        header: "Ngày",
         cell: ({ row }: any) => {
           const date = new Date(row.original.createdAt).toLocaleDateString();
           return <span className="text-white text-sm">{date}</span>;
         },
       },
       {
-        header: "Actions",
+        header: "Hành động",
         cell: ({ row }: any) => (
           <Link
             href={`/order/${row.original.id}`}
@@ -117,14 +127,14 @@ const SellerPayments = () => {
 
   return (
     <div className="w-full min-h-screen p-8">
-      <h2 className="text-2xl text-white font-semibold mb-2">Payments</h2>
+      <h2 className="text-2xl text-white font-semibold mb-2">Thanh toán</h2>
       <BreadCrumbs title="Payments" />
 
       <div className="my-4 flex items-center bg-gray-900 p-2 rounded-md flex-1">
         <Search size={18} className="text-gray-400 mr-2" />
         <input
           type="text"
-          placeholder="Search payments..."
+          placeholder="Tìm kiếm thanh toán..."
           className="w-full bg-transparent text-white outline-none"
           value={globalFilter}
           onChange={(e) => setGlobalFilter(e.target.value)}
@@ -133,7 +143,7 @@ const SellerPayments = () => {
 
       <div className="overflow-x-auto bg-gray-900 rounded-lg p-4">
         {isLoading ? (
-          <p className="text-center text-white">Loading payments...</p>
+          <p className="text-center text-white">Đang tải thanh toán...</p>
         ) : (
           <table className="w-full text-white text-sm">
             <thead>

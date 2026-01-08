@@ -158,6 +158,7 @@ model products {
   Shop                  shops        @relation(fields: [shopId], references: [id])
   carts                 carts[] // Products in carts
   wishlists             wishlists[] // Products in wishlists
+  orderItems            orderItems[]
 }
 
 model userAnalytics {
@@ -232,14 +233,16 @@ model orders {
 }
 
 model orderItems {
-  id              String @id @default(auto()) @map("_id") @db.ObjectId
-  orderId         String @db.ObjectId
-  productId       String
+  id              String  @id @default(auto()) @map("_id") @db.ObjectId
+  orderId         String  @db.ObjectId
+  productId       String  @db.ObjectId
   quantity        Int
   price           Float
   selectedOptions Json?
 
   orders    orders   @relation(fields: [orderId], references: [id], name: "OrderItemsRelation")
+  product  products @relation(fields: [productId], references: [id])
+
   createdAt DateTime @default(now())
 }
 

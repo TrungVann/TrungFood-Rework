@@ -1,4 +1,8 @@
-import { NotFoundError, ValidationError } from "@packages/error-handler";
+import {
+  AuthError,
+  NotFoundError,
+  ValidationError,
+} from "@packages/error-handler";
 import prisma from "@packages/libs/prisma";
 import redis from "@packages/libs/redis";
 import { NextFunction, Request, Response } from "express";
@@ -502,6 +506,91 @@ export const getSellerOrders = async (
     next(error);
   }
 };
+
+// export const getSellerOrders = async (
+//   req: any,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//     console.log("🔍 Fetching orders for seller:", req.seller?.id);
+
+//     // ✅ 1. Validate seller ID
+//     if (!req.seller?.id) {
+//       return next(new AuthError("Seller ID not found"));
+//     }
+
+//     // ✅ 2. Find seller's shop
+//     const shop = await prisma.shops.findUnique({
+//       where: {
+//         sellerId: req.seller.id,
+//       },
+//       select: {
+//         id: true,
+//         name: true,
+//       },
+//     });
+
+//     // ✅ 3. Handle case: Seller chưa có shop
+//     if (!shop) {
+//       console.log("⚠️ Seller has no shop yet");
+//       return res.status(200).json({
+//         success: true,
+//         orders: [],
+//         message: "You haven't created a shop yet.",
+//       });
+//     }
+
+//     console.log("✅ Shop found:", shop.id);
+
+//     // ✅ 4. Fetch orders (chắc chắn shop.id tồn tại)
+//     const orders = await prisma.orders.findMany({
+//       where: {
+//         shopId: shop.id, // ✅ Không dùng optional chaining
+//       },
+//       include: {
+//         user: {
+//           select: {
+//             id: true,
+//             name: true,
+//             email: true,
+//             avatar: true,
+//           },
+//         },
+//         items: {
+//           // ✅ Include items để xem chi tiết
+//           include: {
+//             product: {
+//               select: {
+//                 id: true,
+//                 title: true,
+//                 images: true,
+//               },
+//             },
+//           },
+//         },
+//         shippingAddress: true, // ✅ Include shipping address
+//       },
+//       orderBy: {
+//         createdAt: "desc",
+//       },
+//     });
+
+//     console.log(`✅ Found ${orders.length} orders`);
+
+//     res.status(200).json({
+//       success: true,
+//       orders,
+//       shop: {
+//         id: shop.id,
+//         name: shop.name,
+//       },
+//     });
+//   } catch (error: any) {
+//     console.error("❌ Error in getSellerOrders:", error);
+//     next(error);
+//   }
+// };
 
 // get order details
 export const getOrderDetails = async (

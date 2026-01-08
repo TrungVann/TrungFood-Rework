@@ -113,7 +113,7 @@ const SellerProfile = () => {
                     }
                     alt="Seller Avatar"
                     layout="fill"
-                    objectFit="cover"
+                    style={{ objectFit: "cover" }}
                   />
                   {seller?.id && (
                     <label

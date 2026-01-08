@@ -39,7 +39,7 @@ const PaymentsTable = () => {
       },
       {
         accessorKey: "shop.name",
-        header: "Shop",
+        header: "Cửa hàng",
         cell: ({ row }: any) => (
           <span className="text-white">
             {row.original.shop?.name ?? "Unknown Shop"}
@@ -48,7 +48,7 @@ const PaymentsTable = () => {
       },
       {
         accessorKey: "user.name",
-        header: "Buyer",
+        header: "Người mua",
         cell: ({ row }: any) => (
           <span className="text-white">
             {row.original.user?.name ?? "Guest"}
@@ -56,7 +56,7 @@ const PaymentsTable = () => {
         ),
       },
       {
-        header: "Admin Fee (10%)",
+        header: "Phí cho quản trị viên (10%)",
         cell: ({ row }: any) => {
           const adminFee = row.original.total * 0.1;
           return (
@@ -67,7 +67,7 @@ const PaymentsTable = () => {
         },
       },
       {
-        header: "Seller Earnings",
+        header: "Người bán nhận",
         cell: ({ row }: any) => {
           const sellerEarnings = row.original.total * 0.9;
           return (
@@ -77,7 +77,7 @@ const PaymentsTable = () => {
       },
       {
         accessorKey: "status",
-        header: "Payment Status",
+        header: "Trạng thái thanh toán",
         cell: ({ row }: any) => (
           <span
             className={`px-2 py-1 rounded-full text-xs font-medium ${
@@ -92,14 +92,14 @@ const PaymentsTable = () => {
       },
       {
         accessorKey: "createdAt",
-        header: "Date",
+        header: "Ngày",
         cell: ({ row }: any) => {
           const date = new Date(row.original.createdAt).toLocaleDateString();
           return <span className="text-white text-sm">{date}</span>;
         },
       },
       {
-        header: "Actions",
+        header: "Hành động",
         cell: ({ row }: any) => (
           <Link
             href={`/order/${row.original.id}`}
@@ -125,17 +125,19 @@ const PaymentsTable = () => {
 
   return (
     <div className="w-full min-h-screen p-8">
-      <h2 className="text-2xl text-white font-semibold mb-2">All Orders</h2>
+      <h2 className="text-2xl text-white font-semibold mb-2">
+        Tất cả đơn hàng
+      </h2>
 
       {/* Breadcrumbs */}
-      <BreadCrumbs title="All Orders" />
+      <BreadCrumbs title="Tất cả đơn hàng" />
 
       {/* Search Bar */}
       <div className="my-4 flex items-center bg-gray-900 p-2 rounded-md flex-1">
         <Search size={18} className="text-gray-400 mr-2" />
         <input
           type="text"
-          placeholder="Search orders..."
+          placeholder="Tìm kiếm đơn hàng..."
           className="w-full bg-transparent text-white outline-none"
           value={globalFilter}
           onChange={(e) => setGlobalFilter(e.target.value)}

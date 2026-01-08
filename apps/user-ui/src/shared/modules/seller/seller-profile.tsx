@@ -55,7 +55,7 @@ const SellerProfile = ({
 
   useEffect(() => {
     const fetchFollowStatus = async () => {
-      if (!shop?.id || !user) return;
+      if (!shop?.id) return;
       try {
         const res = await axiosInstance.get(
           `/seller/api/is-following/${shop?.id}`
@@ -67,13 +67,7 @@ const SellerProfile = ({
     };
 
     fetchFollowStatus();
-  }, [shop?.id, user]);
-
-  useEffect(() => {
-    if (!user) {
-      setIsFollowing(false);
-    }
-  }, [user]);
+  }, [shop?.id]);
 
   const { data: events, isLoading: isEventsLoading } = useQuery({
     queryKey: ["seller-events"],
@@ -156,7 +150,7 @@ const SellerProfile = ({
                 }
                 alt="Seller Avatar"
                 layout="fill"
-                objectFit="cover"
+                style={{ objectFit: "cover" }}
               />
             </div>
             <div className="flex-1 w-full">
@@ -195,13 +189,7 @@ const SellerProfile = ({
                   ? "bg-red-500 hover:bg-red-600"
                   : "bg-blue-600 hover:bg-blue-700"
               }`}
-              onClick={() => {
-                if (!user) {
-                  router.push("/login");
-                } else {
-                  toggleFollowMutation.mutate();
-                }
-              }}
+              onClick={() => toggleFollowMutation.mutate()}
               disabled={toggleFollowMutation.isPending}
             >
               <Heart size={18} />
